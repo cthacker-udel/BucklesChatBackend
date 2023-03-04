@@ -1,13 +1,16 @@
 using BucklesChatBackend.Database;
 using BucklesChatBackend.Repositories;
+using BucklesChatBackend.Secrets;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false).Build();
 
-var psqlOptions = configuration.GetSection("DatabaseOptions").GetSection("PostGres");
+// PSql connection
 
+var psqlOptions = configuration.GetSection("DatabaseOptions").GetSection("PostGres");
 var npgConnectionStringBuilder = new NpgsqlConnectionStringBuilder();
 npgConnectionStringBuilder.Username = psqlOptions.GetValue<string>("Username");
 npgConnectionStringBuilder.Password = psqlOptions.GetValue<string>("Password");
@@ -19,7 +22,14 @@ npgConnectionStringBuilder.MinPoolSize = psqlOptions.GetValue<int>("MinPoolSize"
 npgConnectionStringBuilder.MaxPoolSize = psqlOptions.GetValue<int>("MaxPoolSize");
 npgConnectionStringBuilder.ConnectionLifetime = psqlOptions.GetValue<int>("ConnectionLifetime");
 
-var cn = npgConnectionStringBuilder.ToString();
+var mongoDbConnectionString = configuration.GetSection("DatabaseOptions").GetSection("MongoDB").GetValue<string>("ConnectionString");
+var secretKeysInstance = new SecretKeys(npgConnectionStringBuilder.ToString(), mongoDbConnectionString ?? "");
+builder.Services.AddSingleton<ISecretKeys>(secretKeysInstance);
+
+var mongoDBClient = new MongoClient(mongoDbConnectionString);
+builder.Services.AddSingleton<IMongoClient>(mongoDBClient);
+
+// MongoDB Connection
 
 // Add services to the container.
 
