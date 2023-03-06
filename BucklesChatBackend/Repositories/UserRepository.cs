@@ -1,5 +1,5 @@
 ﻿using BucklesChatBackend.Database;
-using BucklesChatBackend.Models.Classes;
+using BucklesChatBackend.Models.DTO;
 using BucklesChatBackend.Models.Entities;
 
 namespace BucklesChatBackend.Repositories
@@ -19,7 +19,7 @@ namespace BucklesChatBackend.Repositories
             return this.appDbContext.Users.Any(e => e.Username != null && e.Username.Equals(username));
         }
 
-        public async Task<bool> AddUser(LocalUser user)
+        public async Task<bool> AddUser(BucklesChatUser user)
         {
             this.appDbContext.Add(user);
             var addResult = await this.appDbContext.SaveChangesAsync();
@@ -46,12 +46,12 @@ namespace BucklesChatBackend.Repositories
             return this.appDbContext.Users.ToList();
         }
 
-        public IEnumerable<LocalUser> GetAllLocalUsers()
+        public IEnumerable<BucklesChatUser> GetAllLocalUsers()
         {
             return this.appDbContext.Users.ToList().Select(e => e.ConvertToLocal()).ToList();
         }
 
-        public async Task<bool> UpdateUser(ulong Id, LocalUser user)
+        public async Task<bool> UpdateUser(ulong Id, BucklesChatUser user)
         {
             var foundEntity = this.appDbContext.Users.FirstOrDefault(eachUser => eachUser.Id == Id);
 

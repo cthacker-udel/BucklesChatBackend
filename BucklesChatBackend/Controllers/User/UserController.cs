@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using BucklesChatBackend.Models.Entities;
 using BucklesChatBackend.Repositories;
-using BucklesChatBackend.Models.Classes;
 using BucklesChatBackend.API;
 using BucklesChatBackend.Encryption;
+using MongoDB.Driver;
+using BucklesChatBackend.Models.DTO;
 
 namespace BucklesChatBackend.Controllers.User
 {
@@ -41,10 +42,10 @@ namespace BucklesChatBackend.Controllers.User
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiResponse> Create([FromBody] JObject Request)
         {
-            long id = EncryptionConstants.GenerateId();
+            var id = EncryptionConstants.GenerateId();
             try
             {
-                var convertedUser = JsonConvert.DeserializeObject<LocalUser>(Request.ToString());
+                var convertedUser = JsonConvert.DeserializeObject<BucklesChatUser>(Request.ToString());
 
                 if (convertedUser == null) return BadRequest("Cannot send empty body");
 
@@ -75,7 +76,7 @@ namespace BucklesChatBackend.Controllers.User
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApiResponse> GetAllUsers()
         {
-            long id = EncryptionConstants.GenerateId();
+            var id = EncryptionConstants.GenerateId();
             try
             {
                 var allUsers = _userRepository.GetAllLocalUsers();

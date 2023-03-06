@@ -1,4 +1,4 @@
-﻿using BucklesChatBackend.Models.Classes;
+﻿using BucklesChatBackend.Models.DTO;
 using BucklesChatBackend.Models.Entities;
 
 namespace BucklesChatBackend.Repositories
@@ -7,9 +7,9 @@ namespace BucklesChatBackend.Repositories
     {
         bool DoesUserWithUsernameExist(string username);
         IEnumerable<DBUser> GetAllUsers();
-        IEnumerable<LocalUser> GetAllLocalUsers();
-        Task<bool> AddUser(LocalUser user);
-        Task<bool> UpdateUser(ulong Id, LocalUser user);
+        IEnumerable<BucklesChatUser> GetAllLocalUsers();
+        Task<bool> AddUser(BucklesChatUser user);
+        Task<bool> UpdateUser(ulong Id, BucklesChatUser user);
         Task<bool> DeleteUser(ulong userId);
     }
 }

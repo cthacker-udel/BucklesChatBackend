@@ -3,9 +3,9 @@
     public static class EncryptionConstants
     {
 
-        public static long GenerateId()
+        public static string GenerateId()
         {
-            return new Random().NextInt64(Int64.MaxValue);
+            return Guid.NewGuid().ToString();
         }
 
     }

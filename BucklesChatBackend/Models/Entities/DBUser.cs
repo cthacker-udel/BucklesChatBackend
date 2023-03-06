@@ -1,4 +1,4 @@
-﻿using BucklesChatBackend.Models.Classes;
+﻿using BucklesChatBackend.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,25 +44,25 @@ namespace BucklesChatBackend.Models.Entities
         [Column("password_salt")]
         public string? PasswordSalt { get; set; }
 
-        public void ApplyChanges(LocalUser user)
+        public void ApplyChanges(BucklesChatUser user)
         {
             FirstName = user.FirstName ?? FirstName;
             LastName = user.LastName ?? LastName;
             Email = user.Email ?? Email;
             Handle = user.Handle ?? Handle;
-            DateOfBirth = user.DateOfBirth ?? DateOfBirth;
+            DateOfBirth = user.Dob ?? DateOfBirth;
             Username = user.Username ?? Username;
             Password = user.Password ?? Password;
             PasswordSalt = user.PasswordSalt ?? PasswordSalt;
         }
 
-        public LocalUser ConvertToLocal()
+        public BucklesChatUser ConvertToLocal()
         {
-            return new LocalUser {
+            return new BucklesChatUser {
                 FirstName = this.FirstName,
                 LastName = this.LastName,
                 Email = this.Email,
-                DateOfBirth = this.DateOfBirth,
+                Dob = this.DateOfBirth,
                 Id = this.Id,
                 Handle = this.Handle,
                 Username = this.Username,
