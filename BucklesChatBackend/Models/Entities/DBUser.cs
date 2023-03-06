@@ -49,7 +49,7 @@ namespace BucklesChatBackend.Models.Entities
             LastName = user.LastName ?? LastName;
             Email = user.Email ?? Email;
             Handle = user.Handle ?? Handle;
-            DateOfBirth = user.Dob ?? DateOfBirth;
+            Dob = user.Dob ?? Dob;
             Username = user.Username ?? Username;
             Password = user.Password ?? Password;
             PasswordSalt = user.PasswordSalt ?? PasswordSalt;
@@ -62,7 +62,7 @@ namespace BucklesChatBackend.Models.Entities
                 FirstName = FirstName,
                 LastName = LastName,
                 Email = Email,
-                Dob = this.DateOfBirth,
+                Dob = Dob,
                 Id = Id,
                 Handle = Handle,
                 Username = Username,

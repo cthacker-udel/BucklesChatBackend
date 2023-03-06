@@ -21,7 +21,7 @@ namespace BucklesChatBackend.Repositories
 
         public async Task<bool> AddUser(BucklesChatUser user)
         {
-            appDbContext.Users.Add(user);
+            appDbContext.Users.Add(user.ToDBUser());
             int addResult = await appDbContext.SaveChangesAsync();
 
             return addResult > 0;

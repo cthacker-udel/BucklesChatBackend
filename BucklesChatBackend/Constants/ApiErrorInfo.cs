@@ -21,6 +21,7 @@
         {
             Message = ex.Message;
             Stack = ex.StackTrace;
+            Id = Guid.NewGuid().ToString();
         }
 
         public ApiErrorInfo(string id)
@@ -31,6 +32,7 @@
         public ApiErrorInfo(ApiErrorCodes code)
         {
             Code = code;
+            Id = Guid.NewGuid().ToString();
         }
 
         public string Id { get; set; }

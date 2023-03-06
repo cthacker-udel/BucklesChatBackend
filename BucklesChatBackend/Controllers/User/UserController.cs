@@ -18,7 +18,7 @@ namespace BucklesChatBackend.Controllers.User
             _userRepository = userRepository;
         }
 
-        [HttpGet("does_username_exist")]
+        [HttpGet("exists")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApiResponse> DoesUsernameExist([FromQuery] string username)
         {
