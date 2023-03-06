@@ -2,7 +2,7 @@
 {
     public class ApiErrorInfo
     {
-        public ApiErrorInfo(long id, ApiErrorCodes code, Exception ex)
+        public ApiErrorInfo(string id, ApiErrorCodes code, Exception ex)
         {
             Id = id;
             Message = ex.Message;
@@ -10,7 +10,7 @@
             Code = code;
         }
 
-        public ApiErrorInfo(long id, Exception ex)
+        public ApiErrorInfo(string id, Exception ex)
         {
             Id = id;
             Message = ex.Message;
@@ -23,7 +23,7 @@
             Stack = ex.StackTrace;
         }
 
-        public ApiErrorInfo(long id)
+        public ApiErrorInfo(string id)
         {
             Id = id;
         }
@@ -33,7 +33,7 @@
             Code = code;
         }
 
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string? Message { get; set; }
         public ApiErrorCodes? Code { get; set; }
         public string? Stack { get; set; }

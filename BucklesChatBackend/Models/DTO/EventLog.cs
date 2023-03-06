@@ -15,5 +15,8 @@ namespace BucklesChatBackend.Models.DTO
         [JsonProperty("message")]
         public string? Message { get; set; }
 
+        [JsonProperty("timestamp")]
+        public long? Timestamp { get; set; }
+
     }
 }
