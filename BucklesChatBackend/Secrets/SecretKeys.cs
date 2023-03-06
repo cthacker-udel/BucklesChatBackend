@@ -1,7 +1,7 @@
 ﻿namespace BucklesChatBackend.Secrets
 {
 
-    public class SecretKeys: ISecretKeys
+    public class SecretKeys : ISecretKeys
     {
 
         public string PostgresConnectionString { get; set; }

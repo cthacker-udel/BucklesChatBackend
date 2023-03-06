@@ -1,5 +1,4 @@
 ﻿using BucklesChatBackend.Models.DTO;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,7 +30,7 @@ namespace BucklesChatBackend.Models.Entities
         public string? Handle { get; set; }
 
         [Column("dob")]
-        public ulong? DateOfBirth { get; set; }
+        public ulong? Dob { get; set; }
 
         [Column("username")]
         public string? Username { get; set; }
@@ -58,16 +57,17 @@ namespace BucklesChatBackend.Models.Entities
 
         public BucklesChatUser ConvertToLocal()
         {
-            return new BucklesChatUser {
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                Email = this.Email,
+            return new BucklesChatUser
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
                 Dob = this.DateOfBirth,
-                Id = this.Id,
-                Handle = this.Handle,
-                Username = this.Username,
-                Password = this.Password,
-                PasswordSalt = this.PasswordSalt
+                Id = Id,
+                Handle = Handle,
+                Username = Username,
+                Password = Password,
+                PasswordSalt = PasswordSalt
             };
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace BucklesChatBackend.API
 {
-        public enum ApiErrorCodes
-        {
-            USERNAME_DOES_EXIST = 0,
-        }
+    public enum ApiErrorCodes
+    {
+        USERNAME_DOES_EXIST = 0,
+    }
 }

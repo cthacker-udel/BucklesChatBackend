@@ -4,7 +4,7 @@ using BucklesChatBackend.Models.Entities;
 
 namespace BucklesChatBackend.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext appDbContext;
 
@@ -16,50 +16,50 @@ namespace BucklesChatBackend.Repositories
         public bool DoesUserWithUsernameExist(string username)
         {
             if (String.IsNullOrEmpty(username)) return true;
-            return this.appDbContext.Users.Any(e => e.Username != null && e.Username.Equals(username));
+            return appDbContext.Users.Any(e => e.Username != null && e.Username.Equals(username));
         }
 
         public async Task<bool> AddUser(BucklesChatUser user)
         {
-            this.appDbContext.Add(user);
-            var addResult = await this.appDbContext.SaveChangesAsync();
+            appDbContext.Users.Add(user);
+            int addResult = await appDbContext.SaveChangesAsync();
 
             return addResult > 0;
         }
 
         public async Task<bool> DeleteUser(ulong userId)
         {
-            var foundEntity = this.appDbContext.Users.FirstOrDefault(eachUser => eachUser.Id == userId);
+            DBUser? foundEntity = appDbContext.Users.FirstOrDefault(eachUser => eachUser.Id == userId);
 
             if (foundEntity == null) return false;
 
-            var deleteResult = this.appDbContext.Remove(foundEntity);
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<DBUser> deleteResult = appDbContext.Users.Remove(foundEntity);
 
             if (deleteResult == null) return false;
 
-            var deleteCount = await this.appDbContext.SaveChangesAsync();
+            int deleteCount = await appDbContext.SaveChangesAsync();
             return deleteCount > 0;
         }
 
         public IEnumerable<DBUser> GetAllUsers()
         {
-            return this.appDbContext.Users.ToList();
+            return appDbContext.Users.ToList();
         }
 
         public IEnumerable<BucklesChatUser> GetAllLocalUsers()
         {
-            return this.appDbContext.Users.ToList().Select(e => e.ConvertToLocal()).ToList();
+            return appDbContext.Users.ToList().Select(e => e.ConvertToLocal()).ToList();
         }
 
         public async Task<bool> UpdateUser(ulong Id, BucklesChatUser user)
         {
-            var foundEntity = this.appDbContext.Users.FirstOrDefault(eachUser => eachUser.Id == Id);
+            DBUser? foundEntity = appDbContext.Users.FirstOrDefault(eachUser => eachUser.Id == Id);
 
             if (foundEntity == null) return false;
 
             foundEntity.ApplyChanges(user);
 
-            var result = await this.appDbContext.SaveChangesAsync();
+            int result = await appDbContext.SaveChangesAsync();
 
             return result > 0;
 

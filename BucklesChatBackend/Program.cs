@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using Npgsql;
 
-var builder = WebApplication.CreateBuilder(args);
-var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false).Build();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false).Build();
 
-var developmentCorsSpecifications = "development";
+string developmentCorsSpecifications = "development";
 
 builder.Services.AddCors(options =>
 {
@@ -17,14 +17,14 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:3000");
         policy.WithMethods("*");
         policy.WithHeaders("*");
- 
+
     });
 });
 
 // PSql connection
 
-var psqlOptions = configuration.GetSection("DatabaseOptions").GetSection("PostGres");
-var npgConnectionStringBuilder = new NpgsqlConnectionStringBuilder();
+IConfigurationSection psqlOptions = configuration.GetSection("DatabaseOptions").GetSection("PostGres");
+NpgsqlConnectionStringBuilder npgConnectionStringBuilder = new NpgsqlConnectionStringBuilder();
 npgConnectionStringBuilder.Username = psqlOptions.GetValue<string>("Username");
 npgConnectionStringBuilder.Password = psqlOptions.GetValue<string>("Password");
 npgConnectionStringBuilder.Host = psqlOptions.GetValue<string>("Host");
@@ -35,11 +35,11 @@ npgConnectionStringBuilder.MinPoolSize = psqlOptions.GetValue<int>("MinPoolSize"
 npgConnectionStringBuilder.MaxPoolSize = psqlOptions.GetValue<int>("MaxPoolSize");
 npgConnectionStringBuilder.ConnectionLifetime = psqlOptions.GetValue<int>("ConnectionLifetime");
 
-var mongoDbConnectionString = configuration.GetSection("DatabaseOptions").GetSection("MongoDB").GetValue<string>("ConnectionString");
-var secretKeysInstance = new SecretKeys(npgConnectionStringBuilder.ToString(), mongoDbConnectionString ?? "");
+string? mongoDbConnectionString = configuration.GetSection("DatabaseOptions").GetSection("MongoDB").GetValue<string>("ConnectionString");
+SecretKeys secretKeysInstance = new SecretKeys(npgConnectionStringBuilder.ToString(), mongoDbConnectionString ?? "");
 builder.Services.AddSingleton<ISecretKeys>(secretKeysInstance);
 
-var mongoDBClient = new MongoClient(mongoDbConnectionString);
+MongoClient mongoDBClient = new MongoClient(mongoDbConnectionString);
 builder.Services.AddSingleton<IMongoClient>(mongoDBClient);
 
 // MongoDB Connection
@@ -54,7 +54,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(npgConn
 //builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -6,7 +6,7 @@ namespace BucklesChatBackend.Database
     /// <summary>
     /// The application database context, which is the communuication layer between the database and the program, and allows for the database to be edited and modified
     /// </summary>
-    public class AppDbContext: DbContext
+    public class AppDbContext : DbContext
     {
         /// <summary>
         /// The constructor, which is used to initialize the DbContext
